@@ -1,4 +1,4 @@
-package ru.practicum.shareit.booking;
+package ru.practicum.shareit.item.request.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Booking {
+public class ItemRequestDto {
     private Integer id;
-    private LocalDateTime start;
-    private LocalDateTime end;
-    private Integer item;
-    private Integer booker;
-    private Status status;
+    private String description;
+    private Integer requestor;
+    private LocalDateTime created;
 }
