@@ -16,7 +16,7 @@ import java.util.*;
 @Repository
 public class UserMemoryRepository extends IdGenerator {
     private final UserMapper userMapper;
-    Map<Integer, User> usersMap = new HashMap<>();
+    private final Map<Integer, User> usersMap = new HashMap<>();
 
     public User addUser(UserDto userDtoRequest) {
         if (userDtoRequest.getEmail() == null || userDtoRequest.getEmail().isEmpty()) {

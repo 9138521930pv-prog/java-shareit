@@ -21,7 +21,7 @@ import java.util.*;
 public class ItemMemoryRepository extends IdGenerator {
     private final ItemMapper itemMapper;
     private final UserMemoryRepository userMemoryRepository;
-    Map<Integer, Item> itemsMap = new HashMap<>();
+    private final Map<Integer, Item> itemsMap = new HashMap<>();
 
     public ItemDto addItem(ItemDto itemDtoRequest, Integer userId) {
 
