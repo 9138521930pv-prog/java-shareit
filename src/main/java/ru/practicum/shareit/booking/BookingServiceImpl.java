@@ -223,6 +223,7 @@ public class BookingServiceImpl implements BookingService {
             throw new NotFoundException("Failed to process request. Item with id = " + itemId + " doesn't exist.");
         }
     }
+
     private void validateBooking(Integer bookingId) {
         if (!bookingRepository.existsById(bookingId)) {
             throw new NotFoundException("Failed to process request. Booking with id = " + bookingId + " doesn't exist.");

@@ -52,9 +52,10 @@ public class ItemServiceImpl implements ItemService {
             throw new ValidationException("Failed to process request. Item's name, description or isAvailable status must not be null.");
         }
     }
+
     @Override
     @Transactional
-    public ItemDto addItem(ItemDto itemDtoRequest, Integer userId){
+    public ItemDto addItem(ItemDto itemDtoRequest, Integer userId) {
         validateItemDto(itemDtoRequest);
         validateUser(userId);
 
