@@ -1,11 +1,11 @@
 package ru.practicum.shareit.user.dto;
 
 import jakarta.validation.constraints.Email;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDto {
     private Integer id;
     private String name;
@@ -13,10 +13,12 @@ public class UserDto {
     private String email;
 
     public boolean hasEmail() {
+
         return email != null && !email.isBlank();
     }
 
     public boolean hasName() {
+
         return name != null && !name.isBlank();
     }
 }

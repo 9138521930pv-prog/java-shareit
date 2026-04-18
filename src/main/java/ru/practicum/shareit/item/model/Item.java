@@ -1,21 +1,44 @@
 package ru.practicum.shareit.item.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import ru.practicum.shareit.item.request.ItemRequest;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import ru.practicum.shareit.user.model.User;
 
-@NoArgsConstructor
+
+@Entity
+@Table(name = "items")
+@Data
 @AllArgsConstructor
-@Getter
-@Setter
+@NoArgsConstructor
 public class Item {
+    @Id
+    @Positive
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private User owner;
+
+    @NotNull(message = "Item name can't be null.")
+    @Length(max = 255)
     private String name;
+
+    @NotNull(message = "Item description can't be null.")
+    @Length(max = 512)
     private String description;
+
+    @Column(name = "is_available")
+    @NotNull(message = "Item status can't be null.")
     private Boolean available;
-    private ItemRequest request;
+
+    @ManyToOne
+    @JoinColumn(name = "owner_id")
+    private User owner;
+
+    public Item(Integer id, String name, String description, Boolean available) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.available = available;
+    }
 }
