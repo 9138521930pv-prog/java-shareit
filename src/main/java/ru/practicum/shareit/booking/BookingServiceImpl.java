@@ -1,5 +1,6 @@
 package ru.practicum.shareit.booking;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class BookingServiceImpl implements BookingService {
     private final ItemRepository itemRepository;
 
     @Override
+    @Transactional
     public BookingDtoResponse addBooking(Integer bookerId, BookingDtoRequest bookingDtoRequest) {
         validateBookingDtoInput(bookingDtoRequest);
         validateUser(bookerId);
@@ -59,6 +61,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    @Transactional
     public BookingDtoResponse setApprove(Integer bookingId, Integer userId, Boolean isApproved) {
         validateBooking(bookingId);
 

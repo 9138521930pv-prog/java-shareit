@@ -3,6 +3,7 @@ package ru.practicum.shareit.booking;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDtoRequest;
 import ru.practicum.shareit.booking.dto.BookingDtoResponse;
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/bookings")
 @RequiredArgsConstructor
+@Validated
 public class BookingController {
 
     private final BookingService bookingService;
@@ -36,7 +38,7 @@ public class BookingController {
     }
 
     @GetMapping
-    public List<BookingDtoResponse> getAllBooking(@RequestParam(name = "state", defaultValue = "ALL", required = false) String searchState,
+    public List<BookingDtoResponse> getAllBooking(@RequestParam(name = "state", defaultValue = "ALL") String searchState,
                                                   @RequestHeader("X-Sharer-User-Id") @NotNull Integer userId) {
         return bookingService.getAllBooking(searchState, userId);
     }

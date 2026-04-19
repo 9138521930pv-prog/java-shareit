@@ -2,14 +2,12 @@ package ru.practicum.shareit.booking;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.Status;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Repository
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
     List<Booking> findByBooker_Id(Integer bookerId, Sort sort);
 
@@ -33,5 +31,9 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findByItemIdAndStartIsAfterAndStatusNot(Integer itemId, LocalDateTime currentDateTime, Status status, Sort sort);
 
+    List<Booking> findByItemIdInAndStartIsBeforeAndStatusNot(List<Integer> itemIds, LocalDateTime now, Status status, Sort sort);
+
     List<Booking> findByItemIdAndStartIsBeforeAndStatusNot(Integer itemId, LocalDateTime currentDateTime, Status status, Sort sort);
+
+    List<Booking> findByItemIdInAndStartIsAfterAndStatusNot(List<Integer> itemIds, LocalDateTime now, Status status, Sort sort);
 }

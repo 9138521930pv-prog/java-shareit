@@ -16,10 +16,7 @@ import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.model.Booking;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -129,31 +126,61 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<ItemWithBookingAndCommentsDto> getOwnerItems(Integer userId) {
+        validateUser(userId);
         Sort sort = Sort.by("start").descending();
+        LocalDateTime now = LocalDateTime.now();
+        List<Item> items = itemRepository.findByOwnerId(userId);
 
-        List<ItemWithBookingAndCommentsDto> userItems = itemRepository.findByOwnerId(userId).stream()
-                .map(itemMapper::mapToItemDto)
-                .map(itemDto -> new ItemWithBookingAndCommentsDto(itemDto, null))
+        if (items.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Integer> itemIds = items.stream()
+                .map(Item::getId)
+                .collect(Collectors.toList());
+
+        List<Booking> lastBookings = bookingRepository.findByItemIdInAndStartIsBeforeAndStatusNot(
+                itemIds, now, Status.REJECTED, sort
+        );
+
+        List<Booking> nextBookings = bookingRepository.findByItemIdInAndStartIsAfterAndStatusNot(
+                itemIds, now, Status.REJECTED, sort.ascending()
+        );
+
+        Map<Integer, Booking> lastBookingMap = lastBookings.stream()
+                .collect(Collectors.toMap(
+                        booking -> booking.getItem().getId(),
+                        booking -> booking
+                ));
+        Map<Integer, Booking> nextBookingMap = nextBookings.stream()
+                .collect(Collectors.toMap(
+                        booking -> booking.getItem().getId(),
+                        booking -> booking
+                ));
+
+         List<ItemWithBookingAndCommentsDto> userItems = items.stream()
                 .map(item -> {
-                    List<Booking> last = bookingRepository.findByItemIdAndStartIsBeforeAndStatusNot(item.getId(), LocalDateTime.now(), Status.REJECTED, sort);
-                    if (!last.isEmpty()) {
-                        Booking lastBooking = last.get(0);
-                        item.setLastBooking(bookingMapper.mapToBookingDtoShort(lastBooking));
+                    ItemDto itemDto = itemMapper.mapToItemDto(item);
+                    ItemWithBookingAndCommentsDto dto = new ItemWithBookingAndCommentsDto(itemDto, null);
+
+                    Integer itemId = itemDto.getId();
+
+                    // Заполняем lastBooking и nextBooking
+                    if (lastBookingMap.containsKey(itemId)) {
+                        dto.setLastBooking(bookingMapper.mapToBookingDtoShort(lastBookingMap.get(itemId)));
+                    }
+                    if (nextBookingMap.containsKey(itemId)) {
+                        dto.setNextBooking(bookingMapper.mapToBookingDtoShort(nextBookingMap.get(itemId)));
                     }
 
-                    List<Booking> next = bookingRepository.findByItemIdAndStartIsAfterAndStatusNot(item.getId(), LocalDateTime.now(), Status.REJECTED, sort.ascending());
-                    if (!next.isEmpty()) {
-                        Booking nextBooking = next.get(0);
-                        item.setNextBooking(bookingMapper.mapToBookingDtoShort(nextBooking));
-                    }
-                    return item;
-                }).collect(Collectors.toList());
+                    return dto;
+                })
+                .collect(Collectors.toList());
 
         return userItems;
     }
 
     @Override
-    @Transactional
     public List<ItemDto> itemSearch(Integer userId, String text) {
         if (text == null || text.isEmpty()) {
             return new ArrayList<>();
