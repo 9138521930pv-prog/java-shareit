@@ -9,7 +9,7 @@ import ru.practicum.shareit.user.model.User;
 
 
 @Entity
-@Table(name = "items")
+@Table(name = "items", schema = "public")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
