@@ -1,33 +1,16 @@
 package ru.practicum.shareit.user;
 
-import org.springframework.stereotype.Component;
-import ru.practicum.shareit.exception.NotFoundException;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.factory.Mappers;
 import ru.practicum.shareit.user.dto.UserDto;
 import ru.practicum.shareit.user.model.User;
 
-@Component
-public class UserMapper {
-    public UserDto mapToUserDto(User user) {
-        if (user == null) {
-            throw new NotFoundException("Пользователь не должен быть равен null");
-        }
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+public interface UserMapper {
+    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-        UserDto userDto = new UserDto();
+    User mapToUser(UserDto userDto);
 
-        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setEmail(user.getEmail());
-
-        return userDto;
-    }
-
-    public User mapToUser(UserDto userDto) {
-        User user = new User();
-
-        user.setId(user.getId());
-        user.setName(userDto.getName());
-        user.setEmail(userDto.getEmail());
-
-        return user;
-    }
+    UserDto mapToUserDto(User user);
 }

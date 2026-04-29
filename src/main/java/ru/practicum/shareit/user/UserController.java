@@ -2,6 +2,7 @@ package ru.practicum.shareit.user;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
+@Validated
 public class UserController {
     private final UserService userService;
 
@@ -36,12 +38,12 @@ public class UserController {
     }
 
     @PatchMapping("/{userId}")
-    public UserDto updateUser(@RequestBody UserDto user, @PathVariable Integer userId) {
+    public UserDto updateUser(@Valid @RequestBody UserDto user, @PathVariable Integer userId) {
         return userService.updateUser(user, userId);
     }
 
     @DeleteMapping("/{userId}")
-    public UserDto deleteUser(@PathVariable Integer userId) {
-        return userService.deleteUser(userId);
+    public void deleteUser(@PathVariable Integer userId) {
+        userService.deleteUser(userId);
     }
 }

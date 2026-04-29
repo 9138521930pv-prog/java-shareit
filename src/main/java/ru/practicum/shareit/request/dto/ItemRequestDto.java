@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item.request;
+package ru.practicum.shareit.request.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-public class ItemRequest {
+public class ItemRequestDto {
     private Integer id;
     private String description;
     private Integer requestor;
