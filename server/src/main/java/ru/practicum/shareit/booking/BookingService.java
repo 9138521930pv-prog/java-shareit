@@ -1,21 +1,19 @@
 package ru.practicum.shareit.booking;
 
-import org.springframework.stereotype.Service;
-import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.dto.BookingDtoRequest;
 import ru.practicum.shareit.booking.dto.BookingDtoResponse;
 import ru.practicum.shareit.booking.model.State;
 
 import java.util.List;
 
-@Service
 public interface BookingService {
-    BookingDtoResponse addBooking(BookingDto bookingDto, Integer userId);
+    BookingDtoResponse addBooking(Integer userId, BookingDtoRequest bookingDtoInput);
 
-    BookingDtoResponse updateBookingStatus(Integer requestOwnerId, Integer bookingId, boolean status);
+    BookingDtoResponse setApprove(Integer bookingId, Integer userId, Boolean isApproved);
 
-    BookingDtoResponse findBookingById(Integer id);
+    BookingDtoResponse getBooking(Integer bookingId);
 
-    List<BookingDtoResponse> findUsersBookings(Integer userId, State state);
+    List<BookingDtoResponse> getAllBooking(State bookingState, Integer userId);
 
-    List<BookingDtoResponse> findUsersItemsBookings(Integer userId,  State state);
+    List<BookingDtoResponse> getAllBookingByOwner(State bookingState, Integer userId);
 }

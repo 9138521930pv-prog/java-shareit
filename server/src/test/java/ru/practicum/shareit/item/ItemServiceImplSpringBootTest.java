@@ -18,7 +18,7 @@ import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoUpdate;
 import ru.practicum.shareit.item.dto.ItemDtoWithComments;
-import ru.practicum.shareit.item.dto.ItemWithBookingDateAndCommentsDto;
+import ru.practicum.shareit.item.dto.ItemWithBookingAndCommentsDto;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserRepository;
@@ -180,11 +180,11 @@ public class ItemServiceImplSpringBootTest {
 
         Mockito.when(itemRepository.save(ArgumentMatchers.any())).thenReturn(item);
         Mockito.when(itemRepository.findById(itemId)).thenReturn(Optional.ofNullable(item));
-        Mockito.when(itemRepository.findAllByOwnerId(1)).thenReturn(ownerItems);
+        Mockito.when(itemRepository.findByOwnerId(1)).thenReturn(ownerItems);
         Mockito.when(bookingRepository.findAllByItemId(itemId)).thenReturn(bookingList);
         Mockito.when(commentRepository.findAllByItemId(itemId)).thenReturn(commentsList);
 
-        List<ItemWithBookingDateAndCommentsDto> foundItems = itemService.getOwnerItems(1);
+        List<ItemWithBookingAndCommentsDto> foundItems = itemService.getOwnerItems(1);
 
         Assertions.assertNotNull(foundItems.get(0));
         Assertions.assertEquals(foundItems.get(0).getName(), item.getName());

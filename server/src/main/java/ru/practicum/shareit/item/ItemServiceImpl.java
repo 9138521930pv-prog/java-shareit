@@ -1,46 +1,41 @@
 package ru.practicum.shareit.item;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.shareit.booking.BookingMapper;
-import ru.practicum.shareit.booking.BookingRepository;
 import ru.practicum.shareit.booking.dto.BookingDtoWithDate;
-import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.model.Status;
-import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.exception.ValidationException;
-import ru.practicum.shareit.item.dto.CommentDto;
-import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.dto.ItemDtoUpdate;
-import ru.practicum.shareit.item.dto.ItemDtoWithComments;
-import ru.practicum.shareit.item.dto.ItemWithBookingDateAndCommentsDto;
+import ru.practicum.shareit.exception.*;
+import ru.practicum.shareit.item.dto.*;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.UserRepository;
+import ru.practicum.shareit.booking.BookingMapper;
+import ru.practicum.shareit.booking.BookingRepository;
+import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
-    private final ItemMapper itemMapper;
     private final UserRepository userRepository;
-    private final CommentRepository commentRepository;
-    private final CommentMapper commentMapper;
     private final BookingRepository bookingRepository;
+    private final CommentRepository commentRepository;
+    private final ItemMapper itemMapper;
     private final BookingMapper bookingMapper;
+    private final CommentMapper commentMapper;
 
     @Override
     @Transactional
     public ItemDto addItem(ItemDto itemDtoRequest, Integer userId) {
-
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
@@ -53,8 +48,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     @Transactional
-    public ItemDto updateItem(ItemDtoUpdate itemDtoRequest, Integer userId, Integer itemId) {
-
+        public ItemDto updateItem(ItemDtoUpdate itemDtoRequest, Integer userId, Integer itemId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
@@ -68,7 +62,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public ItemDtoWithComments getItem(Integer itemId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Item not found"));
@@ -78,11 +72,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<ItemWithBookingDateAndCommentsDto> getOwnerItems(Integer ownerId) {
-        List<Item> ownerItems = itemRepository.findAllByOwnerId(ownerId);
+    @Transactional
+    public List<ItemWithBookingAndCommentsDto> getOwnerItems(Integer ownerId) {
+        List<Item> ownerItems = itemRepository.findByOwnerId(ownerId);
 
-        List<ItemWithBookingDateAndCommentsDto> ownerItemsWithDateAndComments = new ArrayList<>();
+        List<ItemWithBookingAndCommentsDto> ownerItemsWithDateAndComments = new ArrayList<>();
         ownerItems.forEach(item -> {
 
             Booking lastBooking;
@@ -140,7 +134,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public List<ItemDto> itemSearch(String text) {
         List<Item> searchItems = new ArrayList<>();
         if (text != null && !text.isBlank()) {

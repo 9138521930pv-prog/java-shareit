@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.booking.dto.BookingDtoRequest;
 import ru.practicum.shareit.booking.dto.BookingDtoResponse;
 import ru.practicum.shareit.booking.model.State;
 import ru.practicum.shareit.booking.model.Status;
@@ -42,14 +42,14 @@ public class BookingControllerTest {
         LocalDateTime startTime = LocalDateTime.of(2025, 3, 10, 12, 0); // Укажи дату вручную
         LocalDateTime endTime = startTime.plusMinutes(10);
 
-        BookingDto bookingForAdd = BookingDto.builder().itemId(1).start(startTime)
+        BookingDtoRequest bookingForAdd = BookingDtoRequest.builder().itemId(1).start(startTime)
                 .end(endTime).build();
 
         BookingDtoResponse booking = BookingDtoResponse.builder().id(1).start(LocalDateTime.now())
                 .end(LocalDateTime.now().plusMinutes(10)).item(item)
                 .booker(booker).status(Status.WAITING).build();
 
-        when(bookingService.addBooking(bookingForAdd, 1)).thenReturn(booking);
+        when(bookingService.addBooking(1, bookingForAdd)).thenReturn(booking);
 
         mvc.perform(post("/bookings")
                         .content(mapper.writeValueAsString(bookingForAdd))
@@ -75,7 +75,7 @@ public class BookingControllerTest {
                 .end(endTime).item(item)
                 .booker(booker).status(Status.APPROVED).build();
 
-        when(bookingService.findBookingById(1)).thenReturn(booking);
+        when(bookingService.getBooking(1)).thenReturn(booking);
 
 
         mvc.perform(get("/bookings/1")
@@ -100,7 +100,7 @@ public class BookingControllerTest {
                 .end(endTime).item(item)
                 .booker(booker).status(Status.APPROVED).build();
 
-        when(bookingService.updateBookingStatus(1, 1, true)).thenReturn(booking);
+        when(bookingService.setApprove(1, 1, true)).thenReturn(booking);
 
         mvc.perform(patch("/bookings/1?approved=true")
                         .header("X-Sharer-User-Id", "1")
@@ -127,7 +127,7 @@ public class BookingControllerTest {
         List<BookingDtoResponse> bookingList = new ArrayList<>();
         bookingList.add(booking);
 
-        when(bookingService.findUsersBookings(1, State.ALL)).thenReturn(bookingList);
+        when(bookingService.getAllBooking(State.ALL, 1)).thenReturn(bookingList);
 
         mvc.perform(get("/bookings?state=ALL")
                         .header("X-Sharer-User-Id", "1")
@@ -154,7 +154,7 @@ public class BookingControllerTest {
         List<BookingDtoResponse> bookingList = new ArrayList<>();
         bookingList.add(booking);
 
-        when(bookingService.findUsersItemsBookings(1, State.ALL)).thenReturn(bookingList);
+        when(bookingService.getAllBookingByOwner(State.ALL, 1)).thenReturn(bookingList);
 
         mvc.perform(get("/bookings/owner?state=ALL")
                         .header("X-Sharer-User-Id", "1")

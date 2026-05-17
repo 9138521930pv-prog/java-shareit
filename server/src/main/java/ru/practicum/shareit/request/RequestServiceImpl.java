@@ -14,7 +14,9 @@ import ru.practicum.shareit.request.model.ItemRequest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -56,7 +58,7 @@ public class RequestServiceImpl implements RequestService {
 
         List<Item> findAllRequestsItemsList = itemRepository.findByRequestIdIn(requestsIdList);
 
-        for (ItemRequest request : requestsList) {
+        for (ru.practicum.shareit.request.model.ItemRequest request : requestsList) {
             Integer requestId = request.getId();
 
             List<Item> findItemslist = new ArrayList<>();
@@ -94,7 +96,7 @@ public class RequestServiceImpl implements RequestService {
 
         List<Item> findAllRequestsItemsList = itemRepository.findByRequestIdIn(requestsIdList);
 
-        for (ItemRequest request : requestsList) {
+        for (ru.practicum.shareit.request.model.ItemRequest request : requestsList) {
             Integer requestId = request.getId();
 
             List<Item> findItemslist = new ArrayList<>();
@@ -132,3 +134,4 @@ public class RequestServiceImpl implements RequestService {
         return itemRequestDto;
     }
 }
+
