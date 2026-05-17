@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Data
+@Getter
 public class BookingDtoRequest {
     private Integer id;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
