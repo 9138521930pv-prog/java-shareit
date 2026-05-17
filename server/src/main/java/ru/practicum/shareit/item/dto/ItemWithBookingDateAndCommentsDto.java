@@ -6,15 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.shareit.booking.dto.BookingDtoWithDate;
 
-
-
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Builder
-public class ItemWithBookingAndCommentsDto {
+public class ItemWithBookingDateAndCommentsDto {
     private Integer id;
     private Integer ownerId;
     private String name;

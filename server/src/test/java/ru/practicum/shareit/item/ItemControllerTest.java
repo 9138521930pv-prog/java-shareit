@@ -13,7 +13,7 @@ import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoUpdate;
 import ru.practicum.shareit.item.dto.ItemDtoWithComments;
-import ru.practicum.shareit.item.dto.ItemWithBookingAndCommentsDto;
+import ru.practicum.shareit.item.dto.ItemWithBookingDateAndCommentsDto;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -133,11 +133,11 @@ public class ItemControllerTest {
         List<CommentDto> commentList = new ArrayList<>();
         commentList.add(comment);
 
-        ItemWithBookingAndCommentsDto item = ItemWithBookingAndCommentsDto.builder().id(1).ownerId(1).name("Item").description("description")
+        ItemWithBookingDateAndCommentsDto item = ItemWithBookingDateAndCommentsDto.builder().id(1).ownerId(1).name("Item").description("description")
                 .available(true).requestId(1).lastBooking(lastBooking)
                 .nextBooking(nextBooking).comments(commentList).build();
 
-        List<ItemWithBookingAndCommentsDto> itemsList = new ArrayList<>();
+        List<ItemWithBookingDateAndCommentsDto> itemsList = new ArrayList<>();
         itemsList.add(item);
 
         when(itemService.getOwnerItems(1)).thenReturn(itemsList);
