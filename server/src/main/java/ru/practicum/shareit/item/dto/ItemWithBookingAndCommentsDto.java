@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.shareit.booking.dto.BookingDtoWithDate;
 
-
-
 import java.util.List;
 
 @NoArgsConstructor

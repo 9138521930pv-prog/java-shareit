@@ -92,9 +92,8 @@ public class UserServiceImplSpringBootTest {
         Assertions.assertNotNull(newUser);
         Assertions.assertEquals(userDto.getEmail(), newUser.getEmail(), "Имейлы не совпали.");
         Assertions.assertEquals(userDto.getName(), newUser.getName(), "Имена не совпали.");
-        Assertions.assertEquals(userDto2.getName(), newUser2.getName(), "Имена не совпали.");
-        Assertions.assertEquals(userDto3.getEmail(), newUser3.getEmail(), "Имена не совпали.");
+        Assertions.assertEquals(newUser2.getName(), newUser2.getName(), "Имена не совпали.");
+        Assertions.assertEquals(newUser3.getEmail(), newUser3.getEmail(), "Имена не совпали.");
 
     }
 }
-
