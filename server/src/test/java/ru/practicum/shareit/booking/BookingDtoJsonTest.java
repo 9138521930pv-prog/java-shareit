@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.JsonTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.json.JsonContent;
-import ru.practicum.shareit.booking.dto.BookingDtoRequest;
+import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.model.Status;
 
 import java.time.LocalDateTime;
@@ -16,11 +16,11 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 @JsonTest
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class BookingDtoJsonTest {
-    private final JacksonTester<BookingDtoRequest> json;
+    private final JacksonTester<BookingDto> json;
 
     @Test
     void testItemDto() throws Exception {
-        BookingDtoRequest bookingDto = new BookingDtoRequest(
+        BookingDto bookingDto = new BookingDto(
                 1,
                 LocalDateTime.of(2025, 03,18,12,00, 00),
                 LocalDateTime.of(2025, 03,18,12,00, 00).plusDays(1),
@@ -29,7 +29,7 @@ public class BookingDtoJsonTest {
                 Status.APPROVED
         );
 
-        JsonContent<BookingDtoRequest> result = json.write(bookingDto);
+        JsonContent<BookingDto> result = json.write(bookingDto);
 
         assertThat(result).extractingJsonPathNumberValue("$.id").isEqualTo(1);
         assertThat(result).extractingJsonPathStringValue("$.start").isEqualTo("2025-03-18T12:00:00");

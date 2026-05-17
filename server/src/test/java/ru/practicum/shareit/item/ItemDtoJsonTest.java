@@ -9,7 +9,7 @@ import org.springframework.boot.test.json.JsonContent;
 import ru.practicum.shareit.booking.dto.BookingDtoWithDate;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.item.dto.ItemWithBookingAndCommentsDto;
+import ru.practicum.shareit.item.dto.ItemWithBookingDateAndCommentsDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 public class ItemDtoJsonTest {
     private final JacksonTester<ItemDto> itemJson;
     private final JacksonTester<CommentDto> commentJson;
-    private final JacksonTester<ItemWithBookingAndCommentsDto> itemWithBookingDateAndCommentsDtoJson;
+    private final JacksonTester<ItemWithBookingDateAndCommentsDto> itemWithBookingDateAndCommentsDtoJson;
 
     @Test
     void testItemDto() throws Exception {
@@ -84,7 +84,7 @@ public class ItemDtoJsonTest {
         List<CommentDto> commentsList = new ArrayList<>();
         commentsList.add(commentDto);
 
-        ItemWithBookingAndCommentsDto dto = new ItemWithBookingAndCommentsDto(
+        ItemWithBookingDateAndCommentsDto dto = new ItemWithBookingDateAndCommentsDto(
                 1,
                 1,
                 "name",
@@ -96,7 +96,7 @@ public class ItemDtoJsonTest {
                 commentsList
         );
 
-        JsonContent<ItemWithBookingAndCommentsDto> result = itemWithBookingDateAndCommentsDtoJson.write(dto);
+        JsonContent<ItemWithBookingDateAndCommentsDto> result = itemWithBookingDateAndCommentsDtoJson.write(dto);
 
         assertThat(result).extractingJsonPathNumberValue("$.id").isEqualTo(1);
         assertThat(result).extractingJsonPathNumberValue("$.ownerId").isEqualTo(1);

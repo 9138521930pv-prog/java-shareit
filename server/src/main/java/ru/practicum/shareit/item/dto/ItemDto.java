@@ -5,10 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class ItemDto {
     private Integer id;
     private Integer ownerId;
@@ -17,6 +17,3 @@ public class ItemDto {
     private Boolean available;
     private Integer requestId;
 }
-
-
-

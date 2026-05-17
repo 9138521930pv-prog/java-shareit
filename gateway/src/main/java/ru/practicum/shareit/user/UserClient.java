@@ -44,4 +44,3 @@ public class UserClient extends BaseClient {
         return delete("/" + userId);
     }
 }
-
