@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class ItemWithBookingDateAndCommentsDto {
+public class ItemWithBookingAndCommentsDto {
     private Integer id;
     private Integer ownerId;
     private String name;

@@ -38,7 +38,7 @@ public class ItemRepositoryTest {
 
         itemRepository.save(item);
 
-        List<Item> itemsList = itemRepository.findAllByOwnerId(user.getId());
+        List<Item> itemsList = itemRepository.findByOwnerId(user.getId());
 
         Assertions.assertNotNull(itemsList.get(0));
     }

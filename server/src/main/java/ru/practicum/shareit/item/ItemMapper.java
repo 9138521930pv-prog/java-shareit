@@ -6,7 +6,7 @@ import ru.practicum.shareit.booking.dto.BookingDtoWithDate;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoWithComments;
-import ru.practicum.shareit.item.dto.ItemWithBookingDateAndCommentsDto;
+import ru.practicum.shareit.item.dto.ItemWithBookingAndCommentsDto;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
@@ -16,8 +16,8 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 public class ItemMapper {
-    private final  CommentService commentService;
     private final CommentMapper commentMapper;
+    private final CommentService commentService;
 
     public ItemDto mapToItemDto(Item item) {
         ItemDto itemDto = new ItemDto();
@@ -37,7 +37,6 @@ public class ItemMapper {
 
     public ItemDtoWithComments mapToItemDtoWithComments(Item item) {
         List<Comment> comments = commentService.findAllByItemId(item.getId());
-
         List<CommentDto> commentsDtos = comments.stream()
                 .map(comment -> commentMapper.mapToCommentDto(comment)).toList();
 
@@ -68,10 +67,10 @@ public class ItemMapper {
         return item;
     }
 
-    public ItemWithBookingDateAndCommentsDto mapToItemWithBookingDateAndCommentsDto(Item item, BookingDtoWithDate last,
-                                                                                    BookingDtoWithDate next,
-                                                                                    List<CommentDto> commentsDtos) {
-        return new ItemWithBookingDateAndCommentsDto(item.getId(), item.getOwner().getId(), item.getName(),
+    public ItemWithBookingAndCommentsDto mapToItemWithBookingDateAndCommentsDto(Item item, BookingDtoWithDate last,
+                                                                                BookingDtoWithDate next,
+                                                                                List<CommentDto> commentsDtos) {
+        return new ItemWithBookingAndCommentsDto(item.getId(), item.getOwner().getId(), item.getName(),
                 item.getDescription(), item.getAvailable(), item.getRequestId(), last, next, commentsDtos);
     }
 }

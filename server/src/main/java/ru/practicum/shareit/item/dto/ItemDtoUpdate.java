@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 @Builder
+@Data
 public class ItemDtoUpdate {
     private Integer ownerId;
     private String name;

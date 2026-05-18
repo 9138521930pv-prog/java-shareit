@@ -19,7 +19,7 @@ public class RequestMapper {
         itemRequestDto.setId(itemRequest.getId());
         itemRequestDto.setDescription(itemRequest.getDescription());
         itemRequestDto.setRequestorId(itemRequest.getRequestorId());
-        itemRequestDto. setCreated(itemRequest.getCreated());
+        itemRequestDto.setCreated(itemRequest.getCreated());
 
         return itemRequestDto;
     }

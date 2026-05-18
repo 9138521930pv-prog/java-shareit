@@ -23,4 +23,3 @@ public class ItemDtoWithComments {
     private BookingDtoWithDate nextBooking;
     private List<CommentDto> comments;
 }
-
